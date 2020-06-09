@@ -51,8 +51,8 @@ end
 %                   code Run                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-test_channel_1 = Event_007;
-test_channel_2 = Event_008;
+test_channel_1 = Event_007; % event does not occur 
+test_channel_2 = Event_008; % event does occur
 
 run_graphs(test_channel_1,test_channel_2);
 run_fourier(test_channel_1,1000);

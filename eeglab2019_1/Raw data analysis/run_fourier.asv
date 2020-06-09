@@ -1,4 +1,6 @@
-function run_fourier(input_channel,fs)
+% runs the fast fourier transform on the 
+
+function [f,P1_1] = run_fourier(input_channel,fs)
     
     % Length and size of the channel
     [L,C] = size(input_channel);

@@ -34,7 +34,7 @@ for i = 2:m+1
     evalin('base',L2);
     
     % k becomes the labels (prelim) for whether an event occurs or not
-    % based upon the first channel
+    % based upon the first channel (this is just for testing purposes)
     data = Data(event_start:event_end,:);
     if sum(data(:,2) > 0) > 0
         label_prelim(i) = 1;
@@ -51,9 +51,10 @@ end
 %                   code Run                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-test_channel_1 = Event_007;
-test_channel_2 = Event_008;
+test_channel_1 = Event_007; % event does not occur 
+test_channel_2 = Event_008; % event does occur
 
 run_graphs(test_channel_1,test_channel_2);
 run_fourier(test_channel_1,1000);
 run_fourier(test_channel_2,1000);
+run_fourier(
