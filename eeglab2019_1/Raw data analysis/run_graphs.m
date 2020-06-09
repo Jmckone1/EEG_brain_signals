@@ -1,8 +1,4 @@
 function run_graphs(channel_name1, channel_name2)
-%     close all;
-%     channel = 2;
-%     test_channel_1 = Event_004;
-%     test_channel_2 = Event_003;
     
     test_channel_1 = channel_name1;
     test_channel_2 = channel_name2;
@@ -13,10 +9,6 @@ function run_graphs(channel_name1, channel_name2)
     plot(1:x,test_channel_1(:,:));
     title("Test channel 1");
     ylim([-350 350])
-    % subplot(1,2,2);
-    % Fourier = fft(test_channel_1(:,channel));
-    % plot(1:x,Fourier)
-    % title("Test channel 1 fourier");
 
     %figure;
     [x,~] = size(test_channel_2);
@@ -24,10 +16,6 @@ function run_graphs(channel_name1, channel_name2)
     plot(1:x,test_channel_2(:,:));
     title("Test channel 2");
     ylim([-350 350])
-    % subplot(1,2,2);
-    % Fourier = fft(test_channel_2(:,channel));
-    % plot(1:x,Fourier)
-    % title("Test channel 2 fourier");
 
     figure
     for v = 2:32
