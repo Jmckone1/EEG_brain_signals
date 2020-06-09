@@ -1,11 +1,14 @@
 clc; clear; close all;
 
+% input the event file
 Event_filename = "cba1ff01_events.csv";
 Data_filename = "cba1ff01_data.csv";
 
+% read the csv file contents for the events and the signal data
 Events = readmatrix(Event_filename);
 Data = readmatrix(Data_filename);
 
+% get the dimensions of the event matrix
 [m,n] = size(Events);
 event_start = 1;
 event_end = Events(1,3);
@@ -17,7 +20,6 @@ N0=num2str(1000+(1:1:m)');N0(:,1)=[];
 N1=repmat('=Data(event_start:event_end,:',m,1);
 N2=repmat(');',m,1);
 str2=[str1 N0 N1 N2];
-
 str3 = [str1 N0];
 
 % loop through each of the possible events
@@ -39,25 +41,13 @@ for i = 2:m+1
     end
 end
 
-%channel = 2;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   code Run                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 test_channel_1 = Event_007;
 test_channel_2 = Event_008;
 
 run_graphs(test_channel_1,test_channel_2);
-run_fourier(test_channel_1,test_channel_2);
-% 
-% figure;
-% [x,~] = size(test_channel_1);
-% subplot(1,2,1);
-% plot(1:x,test_channel_1(:,channel));
-% subplot(1,2,2);
-% Fourier = fft(test_channel_1(:,channel));
-% plot(1:x,Fourier)
-% 
-% figure;
-% [x,~] = size(test_channel_2);
-% subplot(1,2,1);
-% plot(1:x,test_channel_2(:,channel));
-% subplot(1,2,2);
-% Fourier = fft(test_channel_2(:,channel));
-% plot(1:x,Fourier)
+run_fourier(test_channel_1,1000);
+run_fourier(test_channel_2,1000);
