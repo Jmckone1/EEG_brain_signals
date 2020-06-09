@@ -44,7 +44,8 @@ test_channel_1 = Event_007;
 test_channel_2 = Event_008;
 
 run_graphs(test_channel_1,test_channel_2);
-run_fourier(test_channel_1,test_channel_2,1000);
+run_fourier(test_channel_1,1000);
+run_fourier(test_channel_2,1000);
 % 
 % figure;
 % [x,~] = size(test_channel_1);
