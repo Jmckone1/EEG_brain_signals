@@ -34,7 +34,7 @@ for i = 2:m+1
     evalin('base',L2);
     
     % k becomes the labels (prelim) for whether an event occurs or not
-    % based upon the first channel (this is just for testing purposes)
+    % based upon the first channel
     data = Data(event_start:event_end,:);
     if sum(data(:,2) > 0) > 0
         label_prelim(i) = 1;
