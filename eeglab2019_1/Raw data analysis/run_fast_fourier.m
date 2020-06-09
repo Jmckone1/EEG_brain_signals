@@ -2,6 +2,8 @@
 % each of the possible channels. 
 %
 % Takes a multichannel event (input event) and the frequency sampled (fs).
+%
+% need to figure out a way 
 function run_fast_fourier(input_event,fs)
     
     % Length and size of the channel
