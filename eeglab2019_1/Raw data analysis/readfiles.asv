@@ -55,9 +55,8 @@ test_channel_1 = Event_007; % event does not occur
 test_channel_2 = Event_008; % event does occur
 
 run_graphs(test_channel_1,test_channel_2);
-[L,C] = size(test_channel_1);
-   
+[L,C] = size(input_event);
+    
 figure
 for v = 2:C
-    run_fast_fourier_2(test_channel_1,1000,v);
-end
+run_fast_fourier(test_channel_1,1000,v);
