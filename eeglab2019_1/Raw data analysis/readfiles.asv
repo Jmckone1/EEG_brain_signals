@@ -1,12 +1,12 @@
 clc; clear; close all;
 
 % input the event file
-Event_filename = "cba1ff02_events.csv";
-Data_filename = "cba1ff02_data.csv";
+A_Event_filename = "cba1ff02_events.csv";
+A_Data_filename = "cba1ff02_data.csv";
 
 % read the csv file contents for the events and the signal data
-Events = readmatrix(Event_filename);
-Data = readmatrix(Data_filename);
+Events = readmatrix(A_Event_filename);
+Data = readmatrix(A_Data_filename);
 
 % get the dimensions of the event matrix
 [m,n] = size(Events);

@@ -19,8 +19,4 @@ function [f,P1_1] = run_fast_fourier_2(input_event,fs,v)
     % get the signal frequency points
     f = fs*(0:(L/2))/L;
 
-    subplot(4,8,v-1);
-    plot(f,P1_1);
-    title("Channel " + v);
-
 end
