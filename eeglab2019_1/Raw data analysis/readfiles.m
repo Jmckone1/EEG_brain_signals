@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 % input the event file
-Event_filename = "cba1ff02_events.csv";
-Data_filename = "cba1ff02_data.csv";
+Event_filename = "cba1ff01_events.csv";
+Data_filename = "cba1ff01_data.csv";
 
 % read the csv file contents for the events and the signal data
 Events = readmatrix(Event_filename);
@@ -24,9 +24,10 @@ str3 = [str1 N0];
 
 % should i split this section into iterating throught he given events or
 % should i use a fixed window size to iterate through the entire signal?
-
+info_matrix = zeros(m,4);
 % loop through each of the possible events
 for i = 2:m+1
+
     L2=str2(i-1,:);
     % this runs an imput string (L2) as a line of code
     % 'base' refers to the workspace that the lines will be assigned to as
@@ -36,11 +37,19 @@ for i = 2:m+1
     % k becomes the labels (prelim) for whether an event occurs or not
     % based upon the first channel (this is just for testing purposes)
     data = Data(event_start:event_end,:);
+    % if there is a value above 0 within the given event then label as 1,
+    % otherwise label as 0, this only works for the first event and will
+    % need to be chaecked regardless.
     if sum(data(:,2) > 0) > 0
         label_prelim(i) = 1;
     else
         label_prelim(i) = 0;
     end
+    
+    info_matrix(i-1,1) = i-1;
+    info_matrix(i-1,2) = event_start;
+    info_matrix(i-1,3) = event_end;
+    info_matrix(i-1,4) = label_prelim(i);
     if i < m+1
         event_start = event_end;
         event_end = Events(i,3);
