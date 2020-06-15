@@ -8,6 +8,8 @@ Data_filename = "cba1ff01_data.csv";
 Events = readmatrix(Event_filename);
 Data = readmatrix(Data_filename);
 
+Data = split_channels(Data);
+
 % get the dimensions of the event matrix
 [m,n] = size(Events);
 event_start = 1;
@@ -24,7 +26,17 @@ str3 = [str1 N0];
 
 % should i split this section into iterating throught he given events or
 % should i use a fixed window size to iterate through the entire signal?
-info_matrix = zeros(m,4);
+
+% info matrix: 
+% 1 event number
+% 2 event start
+% 3 event end
+% 4 event classification
+% 5 channel 1 max
+% 6 channel 1 min
+% 7 channel 1 mean
+
+info_matrix = zeros(m,7);
 % loop through each of the possible events
 for i = 2:m+1
 
@@ -50,22 +62,26 @@ for i = 2:m+1
     info_matrix(i-1,2) = event_start;
     info_matrix(i-1,3) = event_end;
     info_matrix(i-1,4) = label_prelim(i);
+    info_matrix(i-1,5) = max(data(:,2));
+    info_matrix(i-1,6) = min(data(:,2));
+    info_matrix(i-1,7) = mean(data(:,2));
     if i < m+1
         event_start = event_end;
         event_end = Events(i,3);
     end
 end
 
-writematrix(info_matrix,"class/test.csv");
+writematrix(info_matrix,"class/cba1ff01_info.csv");
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                   code Run                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-test_channel_1 = Event_007; % event does not occur 
-test_channel_2 = Event_008; % event does occur
+test_channel_1 = Event_001; % event does not occur 
+test_channel_2 = Event_002; % event does occur
 
-run_graphs(test_channel_1,test_channel_2);
+run_raw_graphs(test_channel_1,"event 007");
+run_raw_graphs(test_channel_2,"event 008");
 [L,C] = size(test_channel_1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
