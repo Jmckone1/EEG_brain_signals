@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 % input the event file
-Event_filename = "cba1ff05_events.csv";
-Data_filename = "cba1ff05_data.csv";
+Event_filename = "cba1ff02_events.csv";
+Data_filename = "cba1ff02_data.csv";
 
 % event 01 is in some cases flawed and in most cases significantly longer
 % than the rest of the events given a subject.
@@ -11,7 +11,7 @@ Data_filename = "cba1ff05_data.csv";
 % 1 = 0
 % 2 = 100
 % 3 = 
-% 4 = 300
+% 4 = 300+ (not very clear, will have to be manually segmented
 
 % read the csv file contents for the events and the signal data
 Events = readmatrix(Event_filename);
@@ -66,21 +66,23 @@ for i = 2:m+1
     else
         label_prelim(i) = 0;
     end
-    
-    info_matrix(i-1,1) = i-1;
-    info_matrix(i-1,2) = event_start;
-    info_matrix(i-1,3) = event_end;
-    info_matrix(i-1,4) = label_prelim(i);
-    info_matrix(i-1,5) = max(data(:,2));
-    info_matrix(i-1,6) = min(data(:,2));
-    info_matrix(i-1,7) = mean(data(:,2));
+    if writestats == 1
+        info_matrix(i-1,1) = i-1;
+        info_matrix(i-1,2) = event_start;
+        info_matrix(i-1,3) = event_end;
+        info_matrix(i-1,4) = label_prelim(i);
+        info_matrix(i-1,5) = max(data(:,2));
+        info_matrix(i-1,6) = min(data(:,2));
+        info_matrix(i-1,7) = mean(data(:,2));
+    end
     if i < m+1
         event_start = event_end;
         event_end = Events(i,3);
     end
 end
-
-writematrix(info_matrix,"class/cba1ff05_info.csv");
+if writestats == 1
+    writematrix(info_matrix,"class/cba1ff05_info.csv");
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                   code Run                  %
@@ -89,14 +91,13 @@ writematrix(info_matrix,"class/cba1ff05_info.csv");
 test_channel_1 = Event_007; % event does not occur 
 test_channel_2 = Event_008; % event does occur
 
-run_raw_graphs(test_channel_1,"event 059");
-run_raw_graphs(test_channel_2,"event 060");
-[L,C] = size(test_channel_1);
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %           channel 1           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+[L,C] = size(test_channel_1);
+
+run_raw_graphs(test_channel_1,"event 007");
 % output matrix for signal frequency and ampllitude
 x = size( run_fast_fourier_2(test_channel_1,1000,1));
 P1_output = zeros(x(2), C);
@@ -115,11 +116,15 @@ end
 %           channel 2           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+[L,C] = size(test_channel_2);
+
+run_raw_graphs(test_channel_2,"event 008");
 % output matrix for signal frequency and ampllitude
 x = size( run_fast_fourier_2(test_channel_2,1000,1));
 P2_output = zeros(x(2), C);
 F2_output = zeros(x(2), C);
 figure
+
 for v = 2:C
     % apply fft to the signal
     [f,P] = run_fast_fourier_2(test_channel_2,1000,v);
