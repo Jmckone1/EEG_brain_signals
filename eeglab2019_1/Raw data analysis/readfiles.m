@@ -1,23 +1,19 @@
 clc; clear; close all;
 
 % input the event file
-Event_filename = "cba1ff05_events.csv";
-Data_filename = "cba1ff05_data.csv";
+Event_filename = "cba1ff02_events.csv";
+Data_filename = "cba1ff02_data.csv";
+
+writestats = 0;
 
 % event 01 is in some cases flawed and in most cases significantly longer
 % than the rest of the events given a subject.
-
-% theshold estimate
-% 1 = 0
-% 2 = 100
-% 3 = 
-% 4 = 300
 
 % read the csv file contents for the events and the signal data
 Events = readmatrix(Event_filename);
 Data = readmatrix(Data_filename);
 
-%Data = split_channels(Data);
+Data = split_channels(Data);
 
 % get the dimensions of the event matrix
 [m,n] = size(Events);
@@ -66,21 +62,23 @@ for i = 2:m+1
     else
         label_prelim(i) = 0;
     end
-    
-    info_matrix(i-1,1) = i-1;
-    info_matrix(i-1,2) = event_start;
-    info_matrix(i-1,3) = event_end;
-    info_matrix(i-1,4) = label_prelim(i);
-    info_matrix(i-1,5) = max(data(:,2));
-    info_matrix(i-1,6) = min(data(:,2));
-    info_matrix(i-1,7) = mean(data(:,2));
+    if writestats == 1
+        info_matrix(i-1,1) = i-1;
+        info_matrix(i-1,2) = event_start;
+        info_matrix(i-1,3) = event_end;
+        info_matrix(i-1,4) = label_prelim(i);
+        info_matrix(i-1,5) = max(data(:,2));
+        info_matrix(i-1,6) = min(data(:,2));
+        info_matrix(i-1,7) = mean(data(:,2));
+    end
     if i < m+1
         event_start = event_end;
         event_end = Events(i,3);
     end
 end
-
-writematrix(info_matrix,"class/cba1ff05_info.csv");
+if writestats == 1
+    writematrix(info_matrix,"class/cba1ff05_info.csv");
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                   code Run                  %
@@ -88,24 +86,27 @@ writematrix(info_matrix,"class/cba1ff05_info.csv");
 
 test_channel_1 = Event_007; % event does not occur 
 test_channel_2 = Event_008; % event does occur
-
-run_raw_graphs(test_channel_1,"event 059");
-run_raw_graphs(test_channel_2,"event 060");
-[L,C] = size(test_channel_1);
+fs = 1000;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %           channel 1           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% ----------------------------------- %
+% ------fast time fourier start------ %
+
+[L,C] = size(test_channel_1);
+
+run_raw_graphs(test_channel_1,"event 007");
 % output matrix for signal frequency and ampllitude
-x = size( run_fast_fourier_2(test_channel_1,1000,1));
+x = size( run_fast_fourier_2(test_channel_1,fs,1));
 P1_output = zeros(x(2), C);
 F1_output = zeros(x(2), C);
 figure
 for v = 2:C
     % apply fft to the signal
-    [f,P] = run_fast_fourier_2(test_channel_1,1000,v);
-    subplot(4,8,v-1);plot(f,P);title("Channel " + v);
+    [f,P] = run_fast_fourier_2(test_channel_1,fs,v);
+    subplot(3,4,v-1);plot(f,P);title("Channel " + v);
     % plot the frequency/amplitude fourier
     P1_output(:,v-1) = P;
     F1_output(:,v-1) = f;
@@ -115,16 +116,49 @@ end
 %           channel 2           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+[L,C] = size(test_channel_2);
+
+run_raw_graphs(test_channel_2,"event 008");
 % output matrix for signal frequency and ampllitude
 x = size( run_fast_fourier_2(test_channel_2,1000,1));
 P2_output = zeros(x(2), C);
 F2_output = zeros(x(2), C);
 figure
+
 for v = 2:C
     % apply fft to the signal
     [f,P] = run_fast_fourier_2(test_channel_2,1000,v);
     % plot the frequency/amplitude fourier
-    subplot(4,8,v-1);plot(f,P);title("Channel " + v);
+    subplot(3,4,v-1);plot(f,P);title("Channel " + v);
     P2_output(:,v-1) = P; % signal plot points
     F2_output(:,v-1) = f; % amplitude plot points
 end
+
+% ----fast fourier transform end---- %
+% -----------------------------------%
+% -----short time fourier start----- %
+
+figure
+% for each channel
+for v = 2:C
+    % set base frame size
+    frame_size = 512;
+    subplot(3,4,v-1);plot(f,P);title("Channel " + v);
+    [f1,P11] = run_short_fourier(test_channel_1,fs,frame_size);
+    title(['spectogram of amplitude, frame size: ',num2str(frame_size)])
+    xlabel('Time, s'); ylabel('Frequency, Hz');
+end
+
+figure
+% for each channel
+for v = 2:C
+    % set base frame size
+    frame_size = 512;
+    subplot(3,4,v-1);plot(f,P);title("Channel " + v);
+    [f1,P11] = run_short_fourier(test_channel_2,fs,frame_size);
+    title(['spectogram of amplitude, frame size: ',num2str(frame_size)])
+    xlabel('Time, s'); ylabel('Frequency, Hz');
+end
+
+% ------short time fourier end------ %
+% ---------------------------------- %
