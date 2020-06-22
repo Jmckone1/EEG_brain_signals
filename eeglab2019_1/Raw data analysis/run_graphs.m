@@ -1,37 +1,55 @@
-function run_graphs(channel_name1, channel_name2)
-    
-    test_channel_1 = channel_name1;
-    test_channel_2 = channel_name2;
-    figure;
+clc; clear; close all;
+load('Workspaces/cba1ff03_wk.mat');
 
-    [x,~] = size(test_channel_1);
-    subplot(1,2,1);
-    plot(1:x,test_channel_1(:,:));
-    title("Test channel 1");
-    ylim([-350 350])
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   code Run                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %figure;
-    [x,~] = size(test_channel_2);
-    subplot(1,2,2);
-    plot(1:x,test_channel_2(:,:));
-    title("Test channel 2");
-    ylim([-350 350])
+test_channel_1 = Event_028;
+fs = 1000;
 
-    figure
-    for v = 2:32
-        [x,~] = size(test_channel_1);
-        subplot(4,8,v-1);
-        plot(1:x,test_channel_1(:,v));
-        title("Channel " + v);
-        ylim([-350 350])
-    end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           channel 1           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    figure
-    for v = 2:32
-        [x,~] = size(test_channel_2);
-        subplot(4,8,v-1);
-        plot(1:x,test_channel_2(:,v));
-        title("Channel " + v);
-        ylim([-350 350])
-    end
+% ------ fast time fourier start ------ %
+
+[L,C] = size(test_channel_1);
+
+run_raw_graphs(test_channel_1,"event 007");
+% output matrix for signal frequency and ampllitude
+x = size( run_fast_fourier_2(test_channel_1,fs,1));
+P1_output = zeros(x(2), C);
+F1_output = zeros(x(2), C);
+figure
+for v = 2:C
+    % apply fft to the signal
+    [f,P] = run_fast_fourier_2(test_channel_1,fs,v);
+    subplot(3,4,v-1);plot(f,P);title("Channel " + v);
+    % plot the frequency/amplitude fourier
+    P1_output(:,v-1) = P;
+    F1_output(:,v-1) = f;
+end
+
+% -----short time fourier start----- %
+
+figure
+% for each channel
+for v = 2:C
+    % set base frame size
+    frame_size = 512;
+    subplot(3,4,v-1);
+    [f1,p11] = run_short_fourier(test_channel_1(:,v),fs,frame_size);
+    %plot(f1,P1_output(v-1));title("Channel " + v);
+    title(['spectogram of amplitude, frame size: ',num2str(frame_size)])
+    xlabel('Time, s'); ylabel('Frequency, Hz');
+end
+
+% ----- Continuous wavelet start----- %
+
+figure
+% i need to label this properly for the output
+for v = 2:C
+    subplot(3,4,v-1);
+    CWT_in(test_channel_1(:,v));
 end
