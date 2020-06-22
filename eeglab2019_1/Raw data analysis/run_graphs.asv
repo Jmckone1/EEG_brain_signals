@@ -1,4 +1,5 @@
-clc; clear; close all;
+%clc; clear; close all;
+function run_graphs(x,fs,wlen)
 load('Workspaces/cba1ff01_wk.mat');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
