@@ -13,7 +13,6 @@ fs = 1000;
 %           channel 1           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ----------------------------------- %
 % ------fast time fourier start------ %
 
 [L,C] = size(test_channel_1);
@@ -47,6 +46,9 @@ for v = 2:C
     xlabel('Time, s'); ylabel('Frequency, Hz');
 end
 
+% ----- Continuous wavelet start----- %
+
+% i need to label this properly for the output
 for v = 2:C
     subplot(3,4,v-1);
     CWT_in(test_channel_2(:,v));
