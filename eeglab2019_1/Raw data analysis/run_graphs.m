@@ -1,19 +1,18 @@
 clc; clear; close all;
-load('Workspaces/cba1ff01_wk.mat');
+load('Workspaces/cba1ff02_wk.mat');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                   code Run                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-test_channel_1 = Event_007; % event does not occur 
-test_channel_2 = Event_008; % event does occur
+test_channel_1 = Event_007;
 fs = 1000;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %           channel 1           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ------fast time fourier start------ %
+% ------ fast time fourier start ------ %
 
 [L,C] = size(test_channel_1);
 
