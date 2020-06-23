@@ -16,7 +16,7 @@ fs = 1000;
 
 [L,C] = size(test_channel_1);
 
-run_raw_graphs(test_channel_1,"event 007");
+run_raw_graphs(test_channel_1,"event 007",[3,4]);
 % output matrix for signal frequency and ampllitude
 x = size( run_fast_fourier_2(test_channel_1,fs,1));
 P1_output = zeros(x(2), C);
