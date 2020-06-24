@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 % input the event file
-Event_filename = "Event_files/cba1ff05_events.csv";
-Data_filename = "Data_files/cba1ff05_data.csv";
+Event_filename = "Event_files/cba1ff04_events.csv";
+Data_filename = "Data_files/cba1ff04_data.csv";
 
 writestats = 0;
 
@@ -13,7 +13,7 @@ writestats = 0;
 Events = readmatrix(Event_filename);
 Data = readmatrix(Data_filename);
 
-Data = split_channels(Data);
+% Data = split_channels(Data);
 
 % get the dimensions of the event matrix
 [m,n] = size(Events);
