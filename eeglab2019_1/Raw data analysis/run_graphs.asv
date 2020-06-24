@@ -6,13 +6,12 @@ load('Workspaces/cba1ff01_wk.mat');
 
 test_channel_1 = Event_028;
 fs = 1000;
-% subplot_dims = [4,8]; % for 32 channel data
-subplot_dims = [3,4]; % for 10 channel data
+subplot_dims = [4,8];
+% subplot_dims = [3,4];
 % gets input dimensions
 [L,C] = size(test_channel_1);
 
 % ------ fast time fourier start ------ %
-% provides a frequency analysis of the data.
 
 run_raw_graphs(test_channel_1,"event 007",subplot_dims);
 % output matrix for signal frequency and ampllitude
@@ -35,10 +34,6 @@ for v = 2:C
 end
 
 % -----short time fourier start----- %
-% applies the short time fourier transform that shows the time-frequency
-% analysis of the data - with a manually defined frame size (64 - 1024).
-% higher frame sizes means more frequency data and less temporal data,
-% lower fram sizes means less frequency data and more temporal data.
 
 figure;
 
@@ -54,9 +49,6 @@ for v = 2:C
 end
 
 % ----- Continuous wavelet start----- %
-% applies the continuous wavelet transform on the data for an automated
-% time-frequency analysis frame sizing - produces a spectrogram as an
-% output
 
 figure;
 
