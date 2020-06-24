@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 % input the event file
-Event_filename = "Event_files/cba1ff05_events.csv";
-Data_filename = "Data_files/cba1ff05_data.csv";
+Event_filename = "Event_files/cba1ff04_events.csv";
+Data_filename = "Data_files/cba1ff04_data.csv";
 
 writestats = 0;
 
