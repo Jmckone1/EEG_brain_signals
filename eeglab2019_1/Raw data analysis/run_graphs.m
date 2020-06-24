@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 % input workspace, defined in the prior
-%load('Workspaces/cba1ff01_32_wk.mat');
+% load('Workspaces/cba1ff01_32_wk.mat');
 load('Workspaces/cba1ff01_wk.mat');
 
 test_channel_1 = Event_028;
@@ -45,11 +45,12 @@ figure;
 % for each channel
 for v = 2:C
     % set base frame size
-    frame_size = 1024;
+    frame_size = 32;
     subplot(subplot_dims(1),subplot_dims(2),v-1);
     [f1,p11] = run_short_fourier(test_channel_1(:,v),fs,frame_size);
     % prodcues an amplitude spectrogram dependant upon the frame size
     title("Channel " + v);
+    legend(int2str(frame_size));
     xlabel('Time (s)'); ylabel('Frequency, Hz');
 end
 
