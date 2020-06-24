@@ -13,7 +13,7 @@ writestats = 0;
 Events = readmatrix(Event_filename);
 Data = readmatrix(Data_filename);
 
-Data = split_channels(Data);
+% Data = split_channels(Data);
 
 % get the dimensions of the event matrix
 [m,n] = size(Events);
