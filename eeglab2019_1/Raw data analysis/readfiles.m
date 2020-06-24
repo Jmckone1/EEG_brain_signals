@@ -1,3 +1,9 @@
+% Takes input for the event file (CSV) and the actual EEG data (CSV) and
+% splits the actual EEG data according to the event start and end
+% positions, prodcuing a number of metrics per event that can be outputted
+% on a per event basis, currently only applies to producing outputs for a
+% single subject at a time. can produce up to 999 events per subject.
+
 clc; clear; close all;
 
 % input the event file and data file
