@@ -16,8 +16,8 @@ function run_raw_graphs(channel_1,input_name,plotNum)
     % plots all channels seperately on a single subplot - hard limiting on
     % axis
     figure
-    for v = 2:z
-        subplot(plotNum(1),plotNum(2),v-1);
+    for v = 1:z
+        subplot(plotNum(1),plotNum(2),v);
         plot(1:x,channel_1(:,v));
         title("Channel " + v);
         ylim([-350 550])
