@@ -9,8 +9,7 @@ function run_raw_graphs(channel_1,input_name,plotNum)
 
     % plots all channels on a single graph -  hard limiting on axis
     figure;
-    detrend_sdata = detrend(channel_1,9);
-    plot(1:x,detrend_sdata(:,:));
+    plot(1:x,channel_1(:,:));
     title(input_name);
     ylim([-350 550])
 
@@ -19,7 +18,7 @@ function run_raw_graphs(channel_1,input_name,plotNum)
     % axis
     figure
     for v = 1:z
-        detrend_sdata = detrend(channel_1(:,v),9);
+        detrend_sdata = detrend(channel_1(:,v),10);
         trend = channel_1(:,v) - detrend_sdata;
         mean(detrend_sdata)
         
@@ -30,7 +29,7 @@ function run_raw_graphs(channel_1,input_name,plotNum)
         hold on
         plot(1:x,trend,':r');
         hold on 
-        plot(channel_1(:,v),':b')
+        plot(channel_1(:,v),'xb')
         hold off
     end
 end
