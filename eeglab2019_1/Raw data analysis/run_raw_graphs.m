@@ -15,7 +15,6 @@ function run_raw_graphs(channel_1,input_name,plotNum,trend_level)
     title(input_name);
     ylim([-350 550])
 
-
     % plots all channels seperately on a single subplot - hard limiting on
     % axis
     figure
