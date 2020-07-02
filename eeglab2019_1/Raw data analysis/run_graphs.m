@@ -6,6 +6,7 @@ load('Workspaces/cba1ff01_32_wk.mat');
 
 test_channel_1 = Event_008;
 
+trend_level = 9;
 fs = 1000;
 subplot_dims = [4,8]; % for 32 channel data
 % subplot_dims = [3,4]; % for 9 channel data
@@ -15,7 +16,7 @@ subplot_dims = [4,8]; % for 32 channel data
 % ------ fast time fourier start ------ %
 % provides a frequency analysis of the data.
 
-run_raw_graphs(test_channel_1,"event 008",subplot_dims);
+run_raw_graphs(test_channel_1,"event 008",subplot_dims,trend_level);
 % output matrix for signal frequency and ampllitude
 x = size( run_fast_fourier_2(test_channel_1,fs,1));
 P1_output = zeros(x(2), C);
@@ -23,7 +24,7 @@ F1_output = zeros(x(2), C);
 
 % making use of a 9 point polynominal in order to remove the general trends
 % fromthe data
-test_channel_1 = detrend(test_channel_1,9);
+test_channel_1 = detrend(test_channel_1,trend_level);
 figure;
 
 % for each channel
