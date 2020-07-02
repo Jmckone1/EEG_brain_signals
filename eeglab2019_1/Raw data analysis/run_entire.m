@@ -6,7 +6,7 @@ Data_filename = "Data_files/cba1ff01_data.csv";
 Data = readmatrix(Data_filename);
 fs = 1000; % 
 v = 1; % one channel
-test_channel_1 = Data(:,3);
+test_channel_1 = Data(:,1);
 
 figure
 plot(test_channel_1)
