@@ -7,8 +7,8 @@
 clc; clear; close all;
 
 % input the event file and data file
-Event_filename = "Event_files/cba1ff04_events.csv";
-Data_filename = "Data_files/cba1ff04_data.csv";
+Event_filename = "Event_files/cba1ff01_events.csv";
+Data_filename = "Data_files/cba1ff01_data.csv";
 
 % this determines whether the information will be written to CSV files
 writestats = 0;
@@ -23,6 +23,8 @@ datasplit = 0;
 % read the csv file contents for the events and the signal data
 Events = readmatrix(Event_filename);
 Data = readmatrix(Data_filename);
+
+Data(:,2:end) = detrend(Data(:,2:end),9);
 
 % dataset channel reduction
 if datasplit == 1

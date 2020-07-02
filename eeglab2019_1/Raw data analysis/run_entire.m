@@ -1,22 +1,34 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba1ff01_data.csv";
+Data_filename = "Data_files/cba1ff05_data.csv";
 
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % 
 v = 1; % one channel
 test_channel_1 = Data(:,3);
+<<<<<<< Updated upstream
+=======
+[x,~] = size(test_channel_1);
+>>>>>>> Stashed changes
 
 figure
 plot(test_channel_1)
 title("original data")
 
-test_channel_1 = detrend(test_channel_1,10);
+d_data = detrend(test_channel_1,4);
+trend = test_channel_1 - d_data;
+mean(d_data);
 % 212416 (x^2) above 200,000
 
 figure
-plot(test_channel_1)
+plot(1:x,d_data);
+title("Channel " + v);
+hold on
+plot(1:x,trend,':r');
+hold on 
+plot(test_channel_1,':b')
+hold off
 title("detrended data");
 
 % FFT %

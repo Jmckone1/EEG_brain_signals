@@ -6,12 +6,26 @@ Data_filename = "Data_files/cba1ff01_data.csv";
 Data = readmatrix(Data_filename);
 fs = 1000; % 
 v = 1; % one channel
-test_channel_1 = Data(:,3);
+test_channel_1 = Data(:,2);
 
 figure
+plot(test_channel_1)
+title("original data")
 
-test_channel_1 = detrend(test_channel_1,10);
+d_data = detrend(test_channel_1,2);
+trend = test_channel_1 - d_data;
+mean(d_data);
 % 212416 (x^2) above 200,000
+
+figure
+plot(1:x,detrend_sdata);
+title("Channel " + v);
+hold on
+plot(1:x,trend,':r');
+hold on 
+plot(channel_1(:,v),':b')
+hold off
+title("detrended data");
 
 % FFT %
 figure;
