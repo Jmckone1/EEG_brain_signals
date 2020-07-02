@@ -9,15 +9,9 @@ v = 1; % one channel
 test_channel_1 = Data(:,3);
 
 figure
-plot(test_channel_1)
-title("original data")
 
 test_channel_1 = detrend(test_channel_1,10);
 % 212416 (x^2) above 200,000
-
-figure
-plot(test_channel_1)
-title("detrended data");
 
 % FFT %
 figure;
