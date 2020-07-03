@@ -1,12 +1,12 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba1ff05_data.csv";
+Data_filename = "Data_files/cba1ff01_data.csv";
 
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; %
 v = 1; % one channel
-test_channel_1 = Data(:,3);
+test_channel_1 = Data(:,2);
 [x,~] = size(test_channel_1);
 
 figure
@@ -22,20 +22,21 @@ figure
 plot(1:x,d_data);
 title("Channel " + v);
 hold on
-plot(1:x,trend,':r');
+plot(1:x,trend,'bl');
 hold on
-plot(test_channel_1,':b')
+plot(test_channel_1,':r')
 hold off
 title("detrended data");
+legend("De-Trended Data","Trend","Orginal Data");
+xlabel("time (ms)");
+ylabel("signal amplitude");
 
 % FFT %
 figure;
 [f,P] = run_fast_fourier_2(test_channel_1,fs,v);
-% plot the frequency/amplitude fourier
-
 plot(f,P);
-P1_output(:,v) = P;
-F1_output(:,v) = f;
+ylabel("Amplitude"); xlabel("frequency(Hz)");
+title("Fast Fourier Transform (FFT) entire signal");
 
 frame_size = 64;
 for j = 1:4

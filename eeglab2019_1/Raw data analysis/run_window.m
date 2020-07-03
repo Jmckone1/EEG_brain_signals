@@ -1,12 +1,12 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba1ff02_data.csv";
+Data_filename = "Data_files/cba1ff01_data.csv";
 
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % sampling rate
 v = 1; % one channel
-test_channel_1 = Data(:,3);
+test_channel_1 = Data(:,2);
 max_out = 10; % max output plots before break
 
 [i,~] = size(Data(:,2));
