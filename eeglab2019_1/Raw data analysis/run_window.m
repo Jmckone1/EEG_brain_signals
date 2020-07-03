@@ -4,9 +4,10 @@ Data_filename = "Data_files/cba1ff02_data.csv";
 
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
-fs = 1000; % 
+fs = 1000; % sampling rate
 v = 1; % one channel
-test_channel_1 = Data(:,2);
+test_channel_1 = Data(:,3);
+max_out = 10; % max output plots before break
 
 [i,~] = size(Data(:,2));
 step_size = 1024;
@@ -19,8 +20,8 @@ y = i - x;
 i = 0;
 
 for a = 1:step_size:y+1
-    % channel_frame = detrend(test_channel_1(a:a+window_size),9);
-    channel_frame = test_channel_1(a:a+window_size);
+    channel_frame = detrend(test_channel_1(a:a+window_size),0);
+    % channel_frame = test_channel_1(a:a+window_size);
 
     % Raw signal %
     figure;
@@ -46,7 +47,7 @@ for a = 1:step_size:y+1
     
     i = i + 1;
     
-    if i == 10
+    if i == max_out
         break;
     end
 end
