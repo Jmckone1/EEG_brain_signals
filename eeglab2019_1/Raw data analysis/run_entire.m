@@ -9,9 +9,9 @@ v = 1; % one channel
 test_channel_1 = Data(:,2);
 [x,~] = size(test_channel_1);
 
-figure
-plot(test_channel_1)
-title("original data")
+figure;
+plot(test_channel_1);
+title("original data");
 
 d_data = detrend(test_channel_1,4);
 trend = test_channel_1 - d_data;
@@ -51,4 +51,4 @@ end
 % CWT %
 figure;
 CWT_in(test_channel_1(:,v));
-title("Channel " + v);
+title("Dataset 1 ");

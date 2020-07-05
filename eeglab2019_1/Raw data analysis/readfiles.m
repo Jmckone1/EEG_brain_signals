@@ -7,8 +7,8 @@
 clc; clear; close all;
 
 % input the event file and data file
-Event_filename = "Event_files/cba1ff01_events.csv";
-Data_filename = "Data_files/cba1ff01_data.csv";
+Event_filename = "Event_files/cba1ff03_events.csv";
+Data_filename = "Data_files/cba1ff03_data.csv";
 
 % this determines whether the information will be written to CSV files
 writestats = 0;

@@ -20,7 +20,7 @@ y = i - x;
 i = 0;
 
 for a = 1:step_size:y+1
-    channel_frame = detrend(test_channel_1(a:a+window_size),0);
+    channel_frame = detrend(test_channel_1(a:a+window_size),9);
     % channel_frame = test_channel_1(a:a+window_size);
 
     % Raw signal %
