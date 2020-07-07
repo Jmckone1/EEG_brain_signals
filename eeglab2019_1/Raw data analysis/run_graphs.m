@@ -5,7 +5,8 @@ load('Workspaces/cba1ff01_32_wk.mat');
 % load('Workspaces/cba1ff04_wk.mat');
 % load('Workspaces/detrend.mat');
 
-test_channel_1 = Event_008;
+% events 7, 8, 15
+test_channel_1 = Event_015;
 
 trend_level = 0;
 fs = 1000;
