@@ -1,13 +1,13 @@
 clc; clear; close all;
 
 % input workspace, defined in the prior
-%load('Workspaces/cba1ff04_32_wk.mat');
+load('Workspaces/cba1ff01_32_wk.mat');
 % load('Workspaces/cba1ff04_wk.mat');
-load('Workspaces/detrend.mat');
+% load('Workspaces/detrend.mat');
 
-test_channel_1 = Event_007;
+test_channel_1 = Event_008;
 
-trend_level = 9;
+trend_level = 0;
 fs = 1000;
 subplot_dims = [4,8]; % for 32 channel data
 % subplot_dims = [3,4]; % for 9 channel data
@@ -17,17 +17,23 @@ subplot_dims = [4,8]; % for 32 channel data
 % ------ fast time fourier start ------ %
 % provides a frequency analysis of the data.
 
+% making use of a 9 point polynominal in order to remove the general trends
+% fromthe data
+test_channel_1 = detrend(test_channel_1,trend_level);
+
+
+
 run_raw_graphs(test_channel_1,"event 008",subplot_dims);
 % output matrix for signal frequency and ampllitude
 x = size( run_fast_fourier_2(test_channel_1,fs,1));
 P1_output = zeros(x(2), C);
 F1_output = zeros(x(2), C);
 
-% making use of a 9 point polynominal in order to remove the general trends
-% fromthe data
+% % making use of a 9 point polynominal in order to remove the general trends
+% % fromthe data
 % test_channel_1 = detrend(test_channel_1,trend_level);
-figure;
 
+figure;
 % for each channel
 for v = 1:C
     % apply fft to the signal
