@@ -7,14 +7,14 @@
 clc; clear; close all;
 
 % input the event file and data file
-Event_filename = "Event_files/cba1ff03_events.csv";
-Data_filename = "Data_files/cba1ff03_data.csv";
+Event_filename = "Event_files/cba1ff01_events.csv";
+Data_filename = "Data_files/cba1ff01_data.csv";
 
 % this determines whether the information will be written to CSV files
 writestats = 0;
 % this determines whether the channels will be reduced (manually
 % segemented)
-datasplit = 0;
+datasplit = 1;
 
 % event 01 is in some cases flawed and in most cases significantly longer
 % than the rest of the events given a subject, this can persist in some of
@@ -95,5 +95,5 @@ end
 
 % write matrix to CSV
 if writestats == 1
-    writematrix(info_matrix,"class/cba1ff05_info.csv");
+    writematrix(info_matrix,"class/cba1ff01_7.csv");
 end
