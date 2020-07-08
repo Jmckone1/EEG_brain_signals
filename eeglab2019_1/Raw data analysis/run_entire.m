@@ -1,6 +1,6 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba1ff01_data.csv";
+Data_filename = "Data_files/cba1ff09_data.csv";
 
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
