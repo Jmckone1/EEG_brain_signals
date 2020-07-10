@@ -6,7 +6,7 @@
 %   University of California San Diego (http://sccn.ucsd.edu/). 
 %   User feedback welcome: email eeglab@sccn.ucsd.edu
 %
-% Authors: Arnaud Delorme and Scott Makeig, with substantial contributions
+% Authors: Arnaud Delorme  and Scott Makeig, with substantial contributions
 %   from Colin Humphries, Sigurd Enghoff, Tzyy-Ping Jung, plus
 %   contributions 
 %   from Tony Bell, Te-Won Lee, Luca Finelli and many other contributors. 
