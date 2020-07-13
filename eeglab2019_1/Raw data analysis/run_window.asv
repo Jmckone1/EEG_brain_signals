@@ -1,6 +1,6 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba2ff10_data.csv";
+Data_filename = "Data_files/cba1ff10_data.csv";
 title = "b";
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
@@ -49,10 +49,9 @@ for a = 1:step_size:y
             subplot(3,1,2)
             plot(f,P);
         end
-        fftStats(loop,1) = min(P);
-        fftStats(loop,2) = max(P);
-        fftStats(loop,3) = mean(P);
-        fftStats(loop,4) = std(P);
+        fftStats(loop,1) = max(P);
+        minfft(loop,1) = min(P);
+        meanfft(loop
         
         % STFT %
         
@@ -61,11 +60,8 @@ for a = 1:step_size:y
         subplot(3,1,3);
         legend(int2str(frame_size));
         xlabel('Time (s)'); ylabel('Frequency, Hz');
-        stftStats(loop,1) = min(min(p11));
-        stftStats(loop,2) = max(max(p11));
-        stftStats(loop,3) = mean(mean(p11));
-        stftStats(loop,4) = std(std(p11));
-
+        maxstft(loop,1) = max(max(p11));
+        minstft(loop,1) = min(min(p11));
     % 
     %     % CWT %
     %     subplot(4,1,4);

@@ -6,7 +6,7 @@ load('Workspaces/cba1ff03_32_wk.mat');
 % load('Workspaces/detrend.mat');
 
 % events 7, 8, 15,18,19,20,54,55,96,97
-test_channel_1 = Event_015;
+test_channel_1 = Event_008;
 
 % in some cases channel 14 and 19 show some response (very few)
 
