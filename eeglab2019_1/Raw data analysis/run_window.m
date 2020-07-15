@@ -7,12 +7,12 @@ fs = 1000; % sampling rate
 v = 1; % one channel
 test_channel_1 = Data(:,[2,3,4,5,12,13,18]);
 start = 1;
-max_out = 250; % max output plots before break
+max_out = 10; % max output plots before break
 
 % if 0 no plot only write
 % if 1 no write only plot
 % if 2 no plot no write
-plott = 0;
+plott = 1;
 
 [i,~] = size(Data(:,2));
 step_size = 1024;
@@ -62,7 +62,7 @@ for a = 1:step_size:y
             subplot(4,1,3);
         end
         
-        frame_size = 128;
+        frame_size = 1024;
         [stft_raw,stft_f,stft_P] = short_fourier(channel_frame,fs,frame_size,plott);
         
         if plott == 1
