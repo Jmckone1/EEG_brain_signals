@@ -1,7 +1,7 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba1ff07_data.csv";
-dataset = "dataset_07";
+Data_filename = "Data_files/cba1ff08_data.csv";
+dataset = "dataset_08";
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % sampling rate
