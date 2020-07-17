@@ -1,7 +1,7 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba1ff08_data.csv";
-dataset = "dataset_08";
+Data_filename = "Data_files/cba1ff09_data.csv";
+dataset = "dataset_09";
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % sampling rate
@@ -105,7 +105,7 @@ for a = 1:step_size:y
     if plott == 0
 
         save("outputs/" + dataset + "/fft/time_" + loop + ".mat",'fft_raw','fft_f','fft_P');
-        save("outputs/" + dataset + "/stft/time_" + loop + ".mat",'stft_raw','stft_f','stft_P');
+        % save("outputs/" + dataset + "/stft/time_" + loop + ".mat",'stft_raw','stft_f','stft_P');
         save("outputs/" + dataset + "/cwt/time_" + loop + ".mat",'cwt');
     end
 end
