@@ -6,7 +6,7 @@ load('Workspaces/cba1ff03_32_wk.mat');
 % load('Workspaces/detrend.mat');
 
 % events 7, 8, 15,18,19,20,54,55,96,97
-test_channel_1 = Event_008;
+test_channel_1 = Event_009;
 
 % in some cases channel 14 and 19 show some response (very few)
 
@@ -86,3 +86,12 @@ for v = 1:C
     CWT_in(test_channel_1(:,v));
     title("Channel " + v);
 end
+
+xdMODWT = wden(test_channel_1(:,2),'modwtsqtwolog','s','mln',10,'sym4');
+% xd = wdenoise(test_channel_1(:,2),4);
+figure;
+% plot(test_channel_1(:,2),'r')
+% hold on;
+plot(xdMODWT);
+figure;
+plot(test_channel_1(:,2));

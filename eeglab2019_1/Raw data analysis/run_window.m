@@ -1,16 +1,20 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba2ff10_data.csv";
-title = "b";
+Data_filename = "Data_files/cba1ff01_data.csv";
+dataset = "dataset_01";
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % sampling rate
 v = 1; % one channel
-% test_channel_1 = Data(:,[2,3]);
 test_channel_1 = Data(:,[2,3,4,5,12,13,18]);
 start = 1;
-max_out = 200; % max output plots before break
-plott = 0;
+max_out = 2000; % max output plots before break
+
+% if 0 no plot only write
+% if 1 no write only plot
+% if 2 no plot only write rawstats
+% if 3 no plot no write
+plott = 2;
 
 [i,~] = size(Data(:,2));
 step_size = 1024;
@@ -33,44 +37,53 @@ for a = 1:step_size:y
     if loop >= start
         % channel_frame = detrend(test_channel_1(a:a+window_size),9);
         channel_frame = test_channel_1(a:a+window_size,:);
-        %info_matrix = write_stats(info_matrix,channel_frame,loop,y/step_size,a,a+window_size,title,0);
+        
+        info_matrix = write_stats(info_matrix,channel_frame(:,1),loop,y/step_size,a,a+window_size,dataset,0);
         % Raw signal %
         if plott == 1
             figure;
-            subplot(3,1,1)
+            subplot(4,1,1)
             plot(1:window_size+1,channel_frame);
         end
         
         % FFT %
         
-        [f,P] = run_fast_fourier_2(channel_frame,fs,v);
+        [fft_f,fft_P] = run_fast_fourier_2(channel_frame,fs,v);
+        fft_raw = fft(channel_frame);
         % plot the frequency/amplitude fourier
         if plott == 1
-            subplot(3,1,2)
-            plot(f,P);
+            subplot(4,1,2)
+            plot(fft_f,fft_P);
         end
-        fftStats(loop,1) = min(P);
-        fftStats(loop,2) = max(P);
-        fftStats(loop,3) = mean(P);
-        fftStats(loop,4) = std(P);
+        fftStats(loop,1) = min(fft_P);
+        fftStats(loop,2) = max(fft_P);
+        fftStats(loop,3) = mean(fft_P);
+        fftStats(loop,4) = std(fft_P);
         
         % STFT %
+        if plott == 1
+            subplot(4,1,3);
+        end
         
-        frame_size = 128;
-        [f1,p11] = run_short_fourier(channel_frame,fs,frame_size);
-        subplot(3,1,3);
-        legend(int2str(frame_size));
-        xlabel('Time (s)'); ylabel('Frequency, Hz');
-        stftStats(loop,1) = min(min(p11));
-        stftStats(loop,2) = max(max(p11));
-        stftStats(loop,3) = mean(mean(p11));
-        stftStats(loop,4) = std(std(p11));
+        frame_size = 1024;
+        [stft_raw,stft_f,stft_P] = short_fourier(channel_frame,fs,frame_size,plott);
+        
+        if plott == 1
+            legend(int2str(frame_size));
+            xlabel('Time (s)'); ylabel('Frequency, Hz');
+        end
+        
+        stftStats(loop,1) = min(min(stft_P));
+        stftStats(loop,2) = max(max(stft_P));
+        stftStats(loop,3) = mean(mean(stft_P));
+        stftStats(loop,4) = std(std(stft_P));
 
-    % 
-    %     % CWT %
-    %     subplot(4,1,4);
-    %     CWT_in(channel_frame(:,2));
-    %     
+        % CWT %
+        if plott == 1
+            subplot(4,1,4);
+        end
+        [cwt] = Cont_wave(channel_frame(:,2),plott);
+        
         if plott == 1
             figure;
             for s = 1:7
@@ -90,4 +103,19 @@ for a = 1:step_size:y
         end
     end
     
+    % if plott is 0 (i.e no plotting output) save the variables to mat files
+    if plott == 0
+
+        save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\fft\time_" + loop + ".mat",'fft_raw','fft_f','fft_P');
+        save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\stft\time_" + loop + ".mat",'stft_raw','stft_f','stft_P');
+        save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\cwt\time_" + loop + ".mat",'cwt');
+    end
+end
+
+if plott == 0
+    save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\stats.mat",'fftStats','stftStats');
+end
+
+if plott == 2
+    save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\raw_stats.mat",'fftStats','stftStats');
 end
