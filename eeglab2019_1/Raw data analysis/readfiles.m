@@ -14,7 +14,7 @@ Data_filename = "Data_files/cba1ff01_data.csv";
 writestats = 0;
 % this determines whether the channels will be reduced (manually
 % segemented)
-datasplit = 0;
+datasplit = 1;
 
 % event 01 is in some cases flawed and in most cases significantly longer
 % than the rest of the events given a subject, this can persist in some of
@@ -95,5 +95,5 @@ end
 
 % write matrix to CSV
 if writestats == 1
-    writematrix(info_matrix,"class/cba1ff05_info.csv");
+    writematrix(info_matrix,"class/cba1ff01_7.csv");
 end

@@ -1,13 +1,20 @@
 clc; clear; close all;
 
 % input workspace, defined in the prior
-%load('Workspaces/cba1ff04_32_wk.mat');
+load('Workspaces/cba1ff03_32_wk.mat');
 % load('Workspaces/cba1ff04_wk.mat');
-load('Workspaces/detrend.mat');
+% load('Workspaces/detrend.mat');
 
-test_channel_1 = Event_007;
+% events 7, 8, 15,18,19,20,54,55,96,97
+test_channel_1 = Event_009;
 
-trend_level = 9;
+% in some cases channel 14 and 19 show some response (very few)
+
+% dataset 3 has some interesting respoinses, either being dim in amost all
+% or bright in many channels other that those that show the most consistant
+% response
+
+trend_level = 0;
 fs = 1000;
 subplot_dims = [4,8]; % for 32 channel data
 % subplot_dims = [3,4]; % for 9 channel data
@@ -17,17 +24,23 @@ subplot_dims = [4,8]; % for 32 channel data
 % ------ fast time fourier start ------ %
 % provides a frequency analysis of the data.
 
-run_raw_graphs(test_channel_1,"event 008",subplot_dims);
+% making use of a 9 point polynominal in order to remove the general trends
+% from the data
+test_channel_1 = detrend(test_channel_1,trend_level);
+
+% final value starts at the channel specified (since channel 1 in the 32
+% channel data is the time series of the dataset)
+run_raw_graphs(test_channel_1,"event 008",subplot_dims,2);
 % output matrix for signal frequency and ampllitude
 x = size( run_fast_fourier_2(test_channel_1,fs,1));
 P1_output = zeros(x(2), C);
 F1_output = zeros(x(2), C);
 
-% making use of a 9 point polynominal in order to remove the general trends
-% fromthe data
+% % making use of a 9 point polynominal in order to remove the general trends
+% % from the data
 % test_channel_1 = detrend(test_channel_1,trend_level);
-figure;
 
+figure;
 % for each channel
 for v = 1:C
     % apply fft to the signal
@@ -73,3 +86,12 @@ for v = 1:C
     CWT_in(test_channel_1(:,v));
     title("Channel " + v);
 end
+
+xdMODWT = wden(test_channel_1(:,2),'modwtsqtwolog','s','mln',10,'sym4');
+% xd = wdenoise(test_channel_1(:,2),4);
+figure;
+% plot(test_channel_1(:,2),'r')
+% hold on;
+plot(xdMODWT);
+figure;
+plot(test_channel_1(:,2));
