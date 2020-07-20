@@ -12,8 +12,9 @@ max_out = 2000; % max output plots before break
 
 % if 0 no plot only write
 % if 1 no write only plot
-% if 2 no plot no write
-plott = 0;
+% if 2 no plot only write rawstats
+% if 3 no plot no write
+plott = 2;
 
 [i,~] = size(Data(:,2));
 step_size = 1024;
@@ -25,7 +26,7 @@ x = mod(i,step_size);
 y = i - x;
 loop = 0;
 j = 1;
-% info_matrix = zeros((y/step_size)-1,7);
+info_matrix = zeros((y/step_size)-1,7);
 
 for a = 1:step_size:y
     
@@ -36,7 +37,8 @@ for a = 1:step_size:y
     if loop >= start
         % channel_frame = detrend(test_channel_1(a:a+window_size),9);
         channel_frame = test_channel_1(a:a+window_size,:);
-        %info_matrix = write_stats(info_matrix,channel_frame,loop,y/step_size,a,a+window_size,title,0);
+        
+        info_matrix = write_stats(info_matrix,channel_frame(:,1),loop,y/step_size,a,a+window_size,dataset,0);
         % Raw signal %
         if plott == 1
             figure;
@@ -112,4 +114,8 @@ end
 
 if plott == 0
     save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\stats.mat",'fftStats','stftStats');
+end
+
+if plott == 2
+    save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\raw_stats.mat",'fftStats','stftStats');
 end
