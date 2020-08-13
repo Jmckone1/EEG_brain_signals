@@ -1,8 +1,8 @@
 clear; clc; close all;
 % input the data file
 
-Data_filename = "Data_files/cba1ff01_data.csv";
-dataset = "dataset_01";
+Data_filename = "Data_files/cba2ff12_data.csv";
+dataset = "dataset_25";
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % sampling rate
@@ -15,7 +15,7 @@ max_out = 2000; % max output plots before break
 % if 1 no write only plot
 % if 2 no plot only write rawstats
 % if 3 no plot no write
-plott = 3;
+plott = 2;
 
 [i,~] = size(Data(:,2));
 step_size = 1024;
@@ -35,11 +35,12 @@ for a = 1:step_size:y
         break;
     end
     loop = loop + 1;
+    
     if loop >= start
         % channel_frame = detrend(test_channel_1(a:a+window_size),9);
         channel_frame = test_channel_1(a:a+window_size,:);
-
         info_matrix = write_stats(info_matrix,channel_frame(:,1),loop,y/step_size,a,a+window_size,dataset,0);
+       
         % Raw signal %
         if plott == 1
             figure;
