@@ -1,7 +1,8 @@
 clear; clc; close all;
 % input the data file
-Data_filename = "Data_files/cba1ff01_data.csv";
-dataset = "dataset_01";
+
+Data_filename = "Data_files/cba2ff12_data.csv";
+dataset = "dataset_25";
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % sampling rate
@@ -29,25 +30,26 @@ j = 1;
 info_matrix = zeros((y/step_size)-1,7);
 
 for a = 1:step_size:y
-    
+
     if loop == max_out || a+window_size > i-1
         break;
     end
     loop = loop + 1;
+    
     if loop >= start
         % channel_frame = detrend(test_channel_1(a:a+window_size),9);
         channel_frame = test_channel_1(a:a+window_size,:);
-        
         info_matrix = write_stats(info_matrix,channel_frame(:,1),loop,y/step_size,a,a+window_size,dataset,0);
+       
         % Raw signal %
         if plott == 1
             figure;
             subplot(4,1,1)
             plot(1:window_size+1,channel_frame);
         end
-        
+
         % FFT %
-        
+
         [fft_f,fft_P] = run_fast_fourier_2(channel_frame,fs,v);
         fft_raw = fft(channel_frame);
         % plot the frequency/amplitude fourier
@@ -59,20 +61,19 @@ for a = 1:step_size:y
         fftStats(loop,2) = max(fft_P);
         fftStats(loop,3) = mean(fft_P);
         fftStats(loop,4) = std(fft_P);
-        
+
         % STFT %
         if plott == 1
             subplot(4,1,3);
         end
-        
+
         frame_size = 1024;
         [stft_raw,stft_f,stft_P] = short_fourier(channel_frame,fs,frame_size,plott);
-        
         if plott == 1
             legend(int2str(frame_size));
             xlabel('Time (s)'); ylabel('Frequency, Hz');
         end
-        
+
         stftStats(loop,1) = min(min(stft_P));
         stftStats(loop,2) = max(max(stft_P));
         stftStats(loop,3) = mean(mean(stft_P));
@@ -84,6 +85,7 @@ for a = 1:step_size:y
         end
         [cwt] = Cont_wave(channel_frame(:,2),plott);
         
+
         if plott == 1
             figure;
             for s = 1:7
@@ -102,7 +104,7 @@ for a = 1:step_size:y
             end
         end
     end
-    
+
     % if plott is 0 (i.e no plotting output) save the variables to mat files
     if plott == 0
 
@@ -117,5 +119,5 @@ if plott == 0
 end
 
 if plott == 2
-    save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\raw_stats.mat",'fftStats','stftStats');
+    save("C:\Users\Josh\Desktop\Data_run_outputs\" + dataset + "\info.mat",'info_matrix');
 end
