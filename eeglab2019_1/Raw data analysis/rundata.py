@@ -1,14 +1,20 @@
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D # , Dropout
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+#stft = 2049,53
+#cwt = 45,2049
+#fft = 2049,7
+
+
 import pickle
 import numpy as np
-import matplotlib as plt
-import matplotlib.image as mpimg
 import matplotlib.pyplot as img
 
-x_data = pickle.load(open("C:/Users/Josh/Desktop/Data_run_outputs/stft.pkl", "rb"))
-#y_data = pickle.load(open("C:/Users/Josh/Desktop/Data_run_outputs/class.pkl","rb"))
+x_data = pickle.load(open("C:/Users/Josh/Desktop/Data_run_outputs/fft.pkl", "rb"))
+
+data_loc = 'C:/Users/Josh/Desktop/Data_run_outputs'
+labels1 = pickle.load(open("C:/Users/Josh/Desktop/Data_run_outputs/class.pkl","rb"))
+labels2 = list(labels1.items())
+labelsval = np.array(labels2)[:,1].T
+labelsVal = labelsval.tolist()
+l = list(map(round, labelsVal))
 
 saveloc = "C:/Users/Josh/Desktop/Data_run_outputs/"
 
@@ -37,34 +43,21 @@ for val in range(len(array)):
     out5 = np.divide(out1[:,:,1],out4)
     # out6 makes up the phase calculation
     out6 = np.multiply(2,np.arctan(out5))
-#    img.imsave(saveloc + "a_cwt_amp/" + str(val) + "amp.png",out3)
-#    img.imsave(saveloc + "a_cwt_pha/" + str(val) + "phase.png",out6)
-#    img.imsave(saveloc + "a_fft_amp/" + str(val) + "amp.png",out3)
-#    img.imsave(saveloc + "a_fft_pha/" + str(val) + "phase.png",out6)
-    img.imsave(saveloc + "a_stft_amp/" + str(val) + "amp.png",out3)
-    img.imsave(saveloc + "a_stft_pha/" + str(val) + "phase.png",out6)
-#    if val == 0:
-#        break
+#    if l[val] == 0:
+##        img.imsave(saveloc + "a_cwt_amp/0/" + str(val) + "amp.png",out3)
+##        img.imsave(saveloc + "a_cwt_pha/0/" + str(val) + "phase.png",out6)
+##        img.imsave(saveloc + "a_fft_amp/0/" + str(val) + "amp.png",out3)
+##        img.imsave(saveloc + "a_fft_pha/0/" + str(val) + "phase.png",out6)
+#        img.imsave(saveloc + "a_stft_amp/0/" + str(val) + "amp.png",out3)
+#        img.imsave(saveloc + "a_stft_pha/0/" + str(val) + "phase.png",out6)
+#    if l[val] == 1:
+##        img.imsave(saveloc + "a_cwt_amp/1/" + str(val) + "amp.png",out3)
+##        img.imsave(saveloc + "a_cwt_pha/1/" + str(val) + "phase.png",out6)
+##        img.imsave(saveloc + "a_fft_amp/1/" + str(val) + "amp.png",out3)
+##        img.imsave(saveloc + "a_fft_pha/1/" + str(val) + "phase.png",out6)
+#        img.imsave(saveloc + "a_stft_amp/1/" + str(val) + "amp.png",out3)
+#        img.imsave(saveloc + "a_stft_pha/1/" + str(val) + "phase.png",out6)
+    if val == 0:
+        break
 
 img.imshow(out3,aspect='auto')
-#import matplotlib
-#
-#for val in range(array.shape[0]):
-#    matplotlib.image.imsave(str(val) + '.png', array[val,1])
-
-#output = np.array(array[1,1])
-#for val in range(array.shape[0]):
-#    print(val)
-#    output = np.append(array[val,1],output)
-
-#output = np.array(array[:,1])
-
-#datagen = ImageDataGenerator(
-#    featurewise_center=True,
-#    featurewise_std_normalization=True,
-#    rotation_range=20,
-#    width_shift_range=0.2,
-#    height_shift_range=0.2,
-#    horizontal_flip=True)
-#
-#datagen.fit(array)
