@@ -1,11 +1,9 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D # , Dropout
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
 import matplotlib.pyplot as plt
-import pickle
-from sklearn.model_selection import train_test_split
-import numpy as np
+import tensorflow as tf
 
 data_train_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_train'))
 data_test_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_test'))
@@ -21,9 +19,12 @@ data_test_loc = 'C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_test'
 
 # set up parameters
 batch_size = 128
-epochs = 5
-IMG_HEIGHT = 100
-IMG_WIDTH = 100
+epochs = 90
+IMG_HEIGHT = 45
+IMG_WIDTH = 2049
+
+# 90 epochs
+# learning rate 0.01, momentum 0.9 and weight decay 0.0005 
 
 #stft = 2049,53
 #cwt = 45,2049
@@ -69,8 +70,7 @@ test_data_data_gen = data_image_generator.flow_from_directory(
 
 # sequential CNN, 3 convolution layers, 3 maxpooling layers, sigmoid activation
 model = Sequential([
-    Conv2D(16, 3, padding='same', activation='relu',
-           input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
+    Conv2D(16, 3, padding='same', activation='relu',input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
     MaxPooling2D(),
     Conv2D(32, 3, padding='same', activation='relu'),
     MaxPooling2D(),
@@ -81,19 +81,43 @@ model = Sequential([
     Dense(1, activation='sigmoid')
 ])
     
+# AlexNet 
+model2 = Sequential([
+        Conv2D(96, 11, strides = 4, activation="relu",input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
+        MaxPooling2D(),
+        Conv2D(256, 5, strides = 1, padding='same', activation='relu'),
+        MaxPooling2D(),
+        Conv2D(384, 3, strides = 1, padding='same', activation='relu'),
+        Conv2D(256, 3, strides = 1, padding='same', activation='relu'),
+        MaxPooling2D(),
+        Flatten(),
+        Dense(4096, activation='relu'),
+        Dropout(0.5),
+        Dense(4096, activation='relu'),
+        Dropout(0.5),
+        Dense(1, activation='sigmoid')
+    ])
+
+# compile the model with binary cross entropy
+model2.compile(optimizer='adam',
+          loss='binary_crossentropy',
+          metrics=['accuracy','TruePositives',
+                   'FalsePositives','TrueNegatives',
+                   'FalseNegatives','Precision'])
+
 # compile the model with binary cross entropy
 model.compile(optimizer='adam',
           loss='binary_crossentropy',
           metrics=['accuracy','TruePositives',
                    'FalsePositives','TrueNegatives',
                    'FalseNegatives','Precision'])
-
 # summary of the model structure - output to console
+model2.summary()
 model.summary()
 
 # fits the model to the training dataset, 
 # validated with the validation dataset
-history = model.fit(
+history = model2.fit(
     train_data_data_gen,
     steps_per_epoch=train_data_data_gen.samples // batch_size,
     epochs=epochs,
@@ -102,14 +126,14 @@ history = model.fit(
 )
 
 # predicts the outcome values for the test datset
-result = model.predict(
+result = model2.predict(
     test_data_data_gen,
     steps = test_data_data_gen.samples // batch_size
 )
 
 # evaluates the test dataset, 
 # assigning the metrics to a result_eval variable
-result_eval = model.evaluate(
+result_eval = model2.evaluate(
         test_data_data_gen,
         steps = test_data_data_gen.samples // batch_size
 )
@@ -141,17 +165,26 @@ plt.title('Training and Validation Loss')
 plt.show()
 
 # get the history 
-tn = history.history['TrueNegatives'][1]
-fp = history.history['FalsePositives'][1]
-fn = history.history['FalseNegatives'][1]
-tp = history.history['TruePositives'][1]
+tp = result_eval[2]
+fp = result_eval[3]
+tn = result_eval[4]
+fn = result_eval[5]
+
+# 'loss','accuracy','TruePositives','FalsePositives','TrueNegatives','FalseNegatives','Precision'
 
 sensitivity = tp / (tp + fn)
 specificity = tn / (tn + fp)
 precision = tp / (tp + fp)
 f1 = 2*tp / ((2*tp) + fp + fn)
 
-print(sensitivity)
-print(specificity)
-print(precision)
-print(f1)
+acc_2 = result_eval[1]
+prec_2 = result_eval[6]
+loss = result_eval[0]
+
+print("Sensitivity : " + str(sensitivity))
+print("Specificity : " + str(specificity))
+print("Precision   : " + str(precision))
+print("Precision 2 : " + str(prec_2))
+print("F1          : " + str(f1))
+print("Accuracy    : " + str(acc_2))
+print("Loss        : " + str(acc_2))
