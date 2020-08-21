@@ -2,13 +2,14 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
-data_train_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_train'))
-data_test_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_test'))
-data_train_loc = 'C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_train'
-data_test_loc = 'C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_test'
+data_train_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_stft_amp_train'))
+data_test_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_stft_amp_test'))
+data_train_loc = 'C:/Users/Josh/Desktop/Test_Train/a_stft_amp_train'
+data_test_loc = 'C:/Users/Josh/Desktop/Test_Train/a_stft_amp_test'
 
 #labels1 = pickle.load(open("C:/Users/Josh/Desktop/Data_run_outputs/class.pkl","rb"))
 #labels2 = list(labels1.items())
@@ -20,8 +21,28 @@ data_test_loc = 'C:/Users/Josh/Desktop/Test_Train/a_cwt_amp_test'
 # set up parameters
 batch_size = 128
 epochs = 90
-IMG_HEIGHT = 45
-IMG_WIDTH = 2049
+IMG_HEIGHT = 227 # 45
+IMG_WIDTH = 227
+
+# make sure you clear the kernel each time you want to run a model or it doesnt
+# seem to work at all, i.e there are instances within the runing of the data 
+# the disincludes true negatives and false negatives completely, this problem 
+# seems to solve itself however with the use of square images and the use of 
+# kernel clearing on both the small and large alexnet.
+
+# this has produced an 89% classification accuracy for the smaller alexnet over
+# 50 epochs and a 88% classification accuracy on the larger alexnet over 5 
+# epochs (this used 512 size for the last 2 fully connected layers) with the 
+# same classification accuracy when updating to 4096 size fully connected
+
+# at 90 epochs 
+# cwt-amp
+# sensitivity = 0.9887
+# specificity = 0.7809
+# precision   = 0.8158
+# harmonic F1 = 0.8940
+# accuracy    = 0.8839
+# loss        = 0.3157
 
 # 90 epochs
 # learning rate 0.01, momentum 0.9 and weight decay 0.0005 
@@ -29,14 +50,14 @@ IMG_WIDTH = 2049
 #stft = 2049,53
 #cwt = 45,2049
 #fft = 2049,7
-
+ 
 # create functions for image rescaling and class allocation
 data_image_generator = ImageDataGenerator(validation_split=0.2)
 
 train_data_data_gen = data_image_generator.flow_from_directory(
         batch_size=batch_size,
         directory=data_train_loc,
-        shuffle=False,
+        shuffle=True,
         classes = ["0","1"],
         class_mode="binary",
         subset='training',
@@ -48,7 +69,7 @@ train_data_data_gen = data_image_generator.flow_from_directory(
 val_data_data_gen = data_image_generator.flow_from_directory(
         batch_size=batch_size,
         directory=data_train_loc,
-        shuffle=False,
+        shuffle=True,
         classes = ["0","1"],
         class_mode="binary",
         subset='validation',
@@ -60,7 +81,7 @@ val_data_data_gen = data_image_generator.flow_from_directory(
 test_data_data_gen = data_image_generator.flow_from_directory(
         batch_size=batch_size,
         directory=data_test_loc,
-        shuffle=False,
+        shuffle=True,
         classes = ["0","1"],
         class_mode="binary",
         interpolation="nearest",
@@ -69,7 +90,7 @@ test_data_data_gen = data_image_generator.flow_from_directory(
         )
 
 # sequential CNN, 3 convolution layers, 3 maxpooling layers, sigmoid activation
-model = Sequential([
+model1 = Sequential([
     Conv2D(16, 3, padding='same', activation='relu',input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
     MaxPooling2D(),
     Conv2D(32, 3, padding='same', activation='relu'),
@@ -83,7 +104,7 @@ model = Sequential([
     
 # AlexNet 
 model2 = Sequential([
-        Conv2D(96, 11, strides = 4, activation="relu",input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
+        Conv2D(96, 11, padding='same', strides = 4, activation="relu",input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
         MaxPooling2D(),
         Conv2D(256, 5, strides = 1, padding='same', activation='relu'),
         MaxPooling2D(),
@@ -93,7 +114,24 @@ model2 = Sequential([
         Flatten(),
         Dense(4096, activation='relu'),
         Dropout(0.5),
-        Dense(4096, activation='relu'),
+        Dense(4096, activation='relu'), # orignals were 4096
+        Dropout(0.5),
+        Dense(1, activation='sigmoid')
+    ])
+
+# AlexNet 
+model3 = Sequential([
+        Conv2D(16, 11, padding='same', strides = 4, activation="relu",input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
+        MaxPooling2D(),
+        Conv2D(32, 5, strides = 1, padding='same', activation='relu'),
+        MaxPooling2D(),
+        Conv2D(64, 3, strides = 1, padding='same', activation='relu'),
+        Conv2D(32, 3, strides = 1, padding='same', activation='relu'),
+        MaxPooling2D(),
+        Flatten(),
+        Dense(512, activation='relu'),
+        Dropout(0.5),
+        Dense(512, activation='relu'),
         Dropout(0.5),
         Dense(1, activation='sigmoid')
     ])
@@ -105,15 +143,15 @@ model2.compile(optimizer='adam',
                    'FalsePositives','TrueNegatives',
                    'FalseNegatives','Precision'])
 
-# compile the model with binary cross entropy
-model.compile(optimizer='adam',
-          loss='binary_crossentropy',
-          metrics=['accuracy','TruePositives',
-                   'FalsePositives','TrueNegatives',
-                   'FalseNegatives','Precision'])
+## compile the model with binary cross entropy
+#model.compile(optimizer='adam',
+#          loss='binary_crossentropy',
+#          metrics=['accuracy','TruePositives',
+#                   'FalsePositives','TrueNegatives',
+#                   'FalseNegatives','Precision'])
 # summary of the model structure - output to console
 model2.summary()
-model.summary()
+#model.summary()
 
 # fits the model to the training dataset, 
 # validated with the validation dataset
@@ -187,4 +225,4 @@ print("Precision   : " + str(precision))
 print("Precision 2 : " + str(prec_2))
 print("F1          : " + str(f1))
 print("Accuracy    : " + str(acc_2))
-print("Loss        : " + str(acc_2))
+print("Loss        : " + str(loss))
