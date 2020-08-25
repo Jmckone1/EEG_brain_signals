@@ -6,10 +6,10 @@ import os
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-data_train_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_fft_pha_train'))
-data_test_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_fft_pha_test'))
-data_train_loc = 'C:/Users/Josh/Desktop/Test_Train/a_fft_pha_train'
-data_test_loc = 'C:/Users/Josh/Desktop/Test_Train/a_fft_pha_test'
+data_train_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_stft_amp_train'))
+data_test_len = len(os.listdir('C:/Users/Josh/Desktop/Test_Train/a_stft_amp_test'))
+data_train_loc = 'C:/Users/Josh/Desktop/Test_Train/a_stft_amp_train'
+data_test_loc = 'C:/Users/Josh/Desktop/Test_Train/a_stft_amp_test'
 
 #labels1 = pickle.load(open("C:/Users/Josh/Desktop/Data_run_outputs/class.pkl","rb"))
 #labels2 = list(labels1.items())
@@ -36,13 +36,13 @@ IMG_WIDTH = 227
 # same classification accuracy when updating to 4096 size fully connected
 
 # at 90 epochs 
-#              cwt-amp | cwt-pha | stft-amp | fft_amp
-# sensitivity = 0.9887 = 0.9484  =  0.9733  = 0.9778
-# specificity = 0.7809 = 0.9155  =  0.9035  = 0.9121
-# precision   = 0.8158 = 0.9175  =  0.9106  = 0.9189
-# harmonic F1 = 0.8940 = 0.9327  =  0.9409  = 0.9474
-# accuracy    = 0.8839 = 0.9319  =  0.9386  = 0.9453
-# loss        = 0.3157 = 0.9336  =  0.6518  = 0.1637
+# cwt-amp
+# sensitivity = 0.9887
+# specificity = 0.7809
+# precision   = 0.8158
+# harmonic F1 = 0.8940
+# accuracy    = 0.8839
+# loss        = 0.3157
 
 # 90 epochs
 # learning rate 0.01, momentum 0.9 and weight decay 0.0005 
@@ -217,7 +217,7 @@ f1 = 2*tp / ((2*tp) + fp + fn)
 
 acc_2 = result_eval[1]
 prec_2 = result_eval[6]
-loss2 = result_eval[0]
+loss = result_eval[0]
 
 print("Sensitivity : " + str(sensitivity))
 print("Specificity : " + str(specificity))
@@ -225,4 +225,4 @@ print("Precision   : " + str(precision))
 print("Precision 2 : " + str(prec_2))
 print("F1          : " + str(f1))
 print("Accuracy    : " + str(acc_2))
-print("Loss        : " + str(loss2))
+print("Loss        : " + str(loss))
