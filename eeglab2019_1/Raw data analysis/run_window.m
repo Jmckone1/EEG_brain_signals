@@ -1,21 +1,21 @@
 clear; clc; close all;
 % input the data file
 
-Data_filename = "Data_files/cba2ff12_data.csv";
-dataset = "dataset_25";
+Data_filename = "Data_files/cba1ff01_data.csv";
+dataset = "dataset_01";
 % read the csv file contents for the signal data
 Data = readmatrix(Data_filename);
 fs = 1000; % sampling rate
 v = 1; % one channel
 test_channel_1 = Data(:,[2,3,4,5,12,13,18]);
 start = 1;
-max_out = 2000; % max output plots before break
+max_out = 2; % max output plots before break
 
 % if 0 no plot only write
 % if 1 no write only plot
 % if 2 no plot only write rawstats
 % if 3 no plot no write
-plott = 2;
+plott = 1;
 
 [i,~] = size(Data(:,2));
 step_size = 1024;

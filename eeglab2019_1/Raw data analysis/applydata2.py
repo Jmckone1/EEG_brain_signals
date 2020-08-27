@@ -28,38 +28,6 @@ epochs = 30
 IMG_HEIGHT = 227 # 45
 IMG_WIDTH = 227
 
-#0.9218 0.8191 0.8360 0.8768 0.8705 0.3316 cwtamp
-#0.9868 0.8881 0.9021 0.9426 0.9386 0.3953 stftamp
-#0.9512 0.9191 0.9225 0.9366 0.9352 0.1840 fftamp
-# 1 0 0.5 0.66 0.5 0.8 fftpha
-
-
-# make sure you clear the kernel each time you want to run a model or it doesnt
-# seem to work at all, i.e there are instances within the runing of the data 
-# the disincludes true negatives and false negatives completely, this problem 
-# seems to solve itself however with the use of square images and the use of 
-# kernel clearing on both the small and large alexnet.
-
-# this has produced an 89% classification accuracy for the smaller alexnet over
-# 50 epochs and a 88% classification accuracy on the larger alexnet over 5 
-# epochs (this used 512 size for the last 2 fully connected layers) with the 
-# same classification accuracy when updating to 4096 size fully connected
-
-# at 90 epochs 
-#              cwt-amp | cwt-pha | stft-amp | fft_amp | fft_pha
-# sensitivity = 0.9887 = 0.9484  =  0.9733  = 0.9778  = 1
-# specificity = 0.7809 = 0.9155  =  0.9035  = 0.9121  = 0
-# precision   = 0.8158 = 0.9175  =  0.9106  = 0.9189  = 0.4921
-# harmonic F1 = 0.8940 = 0.9327  =  0.9409  = 0.9474  = 0.6596
-# accuracy    = 0.8839 = 0.9319  =  0.9386  = 0.9453  = 0.4921
-# loss        = 0.3157 = 0.9336  =  0.6518  = 0.1637  = 0.8552
-
-# 90 epochs
-# learning rate 0.01, momentum 0.9 and weight decay 0.0005 
-
-#stft = 2049,53
-#cwt = 45,2049
-#fft = 2049,7
  
 # create functions for image rescaling and class allocation
 data_image_generator = ImageDataGenerator(validation_split=0.2)

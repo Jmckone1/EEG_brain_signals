@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-04-27" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="2.8.10" locale="en_GB">
+    <description/>
+    <view zooming-state="default:6" id="gantt-chart">
+        <field id="tpd3" name="Name" width="167" order="0"/>
+        <field id="tpd4" name="Begin date" width="65" order="1"/>
+        <field id="tpd5" name="End date" width="64" order="2"/>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="210" order="0"/>
+        <field id="1" name="Default role" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="50" name="Requirements" color="#8cb6ce" meeting="false" start="2020-05-01" duration="6" complete="100" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true">
+            <depend id="52" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="57" name="Obtain Data" color="#8cb6ce" meeting="false" start="2020-05-01" duration="11" complete="100" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true">
+            <depend id="52" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="52" name="design" meeting="false" start="2020-05-18" duration="10" complete="100" expand="true">
+            <depend id="80" type="2" difference="0" hardness="Strong"/>
+            <task id="59" name="channel selection" meeting="false" start="2020-05-18" duration="3" complete="100" expand="true">
+                <depend id="61" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="61" name="features" meeting="false" start="2020-05-21" duration="3" complete="100" expand="true">
+                <depend id="60" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="60" name="architectures / algorithms" meeting="false" start="2020-05-26" duration="4" complete="100" expand="true"/>
+        </task>
+        <task id="80" name="Milestone 1" color="#8cb6ce" meeting="true" start="2020-06-01" duration="0" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true">
+            <depend id="91" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="91" name="Implement feature extraction" meeting="false" start="2020-06-01" duration="20" complete="100" expand="true">
+            <depend id="96" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="96" name="Test and evaluate" meeting="false" start="2020-06-29" duration="5" complete="100" expand="true">
+            <depend id="109" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="109" name="Milestone 2" color="#8cb6ce" meeting="true" start="2020-07-06" duration="0" complete="0" thirdDate="2020-04-27" thirdDate-constraint="0" expand="true">
+            <depend id="112" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="112" name="Update requirements" meeting="false" start="2020-07-06" duration="5" complete="100" expand="true">
+            <depend id="114" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="114" name="Design" meeting="false" start="2020-07-13" duration="10" complete="100" expand="true">
+            <depend id="122" type="2" difference="0" hardness="Strong"/>
+            <task id="116" name="Check feature relevance" color="#8cb6ce" meeting="false" start="2020-07-13" duration="5" complete="100" thirdDate="2020-07-23" thirdDate-constraint="0" expand="true">
+                <depend id="117" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="117" name="Architectures / algorithms" meeting="false" start="2020-07-20" duration="5" complete="100" expand="true"/>
+        </task>
+        <task id="122" name="Feature update" meeting="false" start="2020-07-27" duration="5" complete="100" expand="true">
+            <depend id="123" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="123" name="Implement further ML algorithms" meeting="false" start="2020-08-03" duration="9" complete="100" expand="true">
+            <depend id="125" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="125" name="Test and evaluate" meeting="false" start="2020-08-14" duration="7" complete="100" expand="true">
+            <depend id="126" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="126" name="Milestone 3" color="#8cb6ce" meeting="true" start="2020-08-25" duration="0" complete="0" thirdDate="2020-05-25" thirdDate-constraint="0" expand="true">
+            <depend id="131" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="131" name="Additional implemention" meeting="false" start="2020-08-25" duration="1" complete="0" expand="true"/>
+        <task id="130" name="Compile report" meeting="false" start="2020-06-01" duration="64" complete="96" expand="true"/>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
